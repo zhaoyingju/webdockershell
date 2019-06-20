@@ -18,7 +18,8 @@ namespace webshell
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            WebHost.CreateDefaultBuilder(args)        
+                .UseUrls("http://*:5000")    
+                .UseStartup<Startup>().;
     }
 }
