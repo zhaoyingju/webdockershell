@@ -1,7 +1,7 @@
 #/bin/sh
 # git yum安装 检查git 是否存在 存在不安装
-git --version
 
+git --version
 #设置user and email
 git_url="https://github.com/zhaoyingju/webdockershell.git"
 username="zhaoyingju"
@@ -19,9 +19,10 @@ fi
  cd $path
 
 # 拉取代码
+echo '>>>拉取代码'
 git pull $git_url
 
+echo '执行dotnet编译发布'
 dotnet restore
 dotnet build
 dotnet publish
-dotnet run
