@@ -4,7 +4,7 @@ set -xe
 git --version
 #设置user and email
 git_url="https://github.com/zhaoyingju/webdockershell.git"
-
+path="/var/code/webdockershell"
 #验证录入的地址是否存在 不存在创建
 if [ ! -d "$path" ];then
  mkdir -p $path
