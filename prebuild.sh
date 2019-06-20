@@ -1,5 +1,5 @@
 #/bin/sh
-
+set -xe
 echo ">>>cp build.sh"
 cp /var/code/webdockershell/build.sh /var/code/build.sh
 

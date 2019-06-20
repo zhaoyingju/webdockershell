@@ -1,14 +1,9 @@
 #/bin/sh
 # git yum安装 检查git 是否存在 存在不安装
-
+set -xe
 git --version
 #设置user and email
 git_url="https://github.com/zhaoyingju/webdockershell.git"
-username="zhaoyingju"
-email="zhaoyingju@163.com"
-path="/var/code/webdockershell"
-git config -- user.name $username
-git config  user.email $email
 
 #验证录入的地址是否存在 不存在创建
 if [ ! -d "$path" ];then
