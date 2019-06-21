@@ -1,9 +1,11 @@
 #!/bin/sh
+release_path="/var/code/release/webdockershell"
+cd $release_path
 project="webshell"
 echo '构建docker镜像'
 docker build --no-cache --pull --tag $project --build-arg .
 echo '>>>获取旧的容器id'
-CID=$(docker ps |grep "$3" |awk '{print $1}')
+CID=$(docker ps |grep "$project" |awk '{print $1}')
 echo $CID
 echo '>>>停止旧的容器'
 if [ "$CID" != "" ];then
