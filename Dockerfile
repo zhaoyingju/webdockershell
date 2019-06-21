@@ -1,19 +1,5 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 as runtime
 WORKDIR /app
-
-# copy csproj and restore as distinct layers
-COPY *.sln .
-COPY webshell.csproj ./aspnetapp/
-RUN dotnet restore
-
-# copy everything else and build app
-COPY . ./aspnetapp/
-WORKDIR /app/aspnetapp
-RUN dotnet publish -c Release -o out
-
-
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
-WORKDIR /app
-COPY --from=build /app/aspnetapp/out ./
+COPY /. ./
 ENTRYPOINT ["dotnet", "webshell.dll"]
 
