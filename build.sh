@@ -30,7 +30,7 @@ dotnet build
 #验证发布地址是否存在 不存在创建
 
 echo '>>>创建发布目录'
-if [ ! -d "release_path" ];then
+if [ ! -d "$release_path" ];then
  mkdir -p $release_path
 fi
 echo '>>>清空发布目录'
