@@ -1,4 +1,4 @@
-#!/usr/bin/expect
+#!/bin/sh
 release_path="/var/code/release/webdockershell"
 cd $release_path
 project="webshell"
@@ -17,10 +17,8 @@ sleep 10
 echo '>>>启动新的容器'
 docker run -t -d --name=$webshell -p 5000:5000 $project
 
-set timeout 30
-spawn docker login --username=hncore registry-internal.cn-hangzhou.aliyuncs.com
-expect "Password:"
-send "qaz123!@#\r"
-interact
+docker login --username=hncore registry-internal.cn-hangzhou.aliyuncs.com<<EOF  
+qaz123!@#
+EOF  
 docker tag $project registry-internal.cn-hangzhou.aliyuncs.com/hncore/webshell/hncore/webshell:latest
 docker push registry-internal.cn-hangzhou.aliyuncs.com/hncore/webshell:latest
