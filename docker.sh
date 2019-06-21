@@ -15,4 +15,4 @@ if [ "$CID" != "" ];then
 fi
 sleep 10
 echo '>>>启动新的容器'
-docker run -t -d --name=$webshell -p 5000:5000 $project:latests
+docker run -t -d --name=$webshell -p 5000:5000 $project
