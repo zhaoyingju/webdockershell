@@ -1,4 +1,4 @@
-#!/bin/expect
+#!/usr/bin/expect
 release_path="/var/code/release/webdockershell"
 cd $release_path
 project="webshell"
