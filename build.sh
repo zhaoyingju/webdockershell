@@ -34,7 +34,10 @@ if [ ! -d "$release_path" ];then
  mkdir -p $release_path
 fi
 echo '>>>清空发布目录'
+
+cd $release_path
 rm * -rf
+ cd $path
 echo '>>>发布'
 cp $dockerfile_path $dockerfile_path_target
 dotnet publish -o $release_path
