@@ -31,7 +31,7 @@ dotnet build
 
 echo '>>>创建发布目录'
 if [ ! -d "release_path" ];then
- mkdir -p release_path
+ mkdir -p $release_path
 fi
 echo '>>>清空发布目录'
 rm * -rf
