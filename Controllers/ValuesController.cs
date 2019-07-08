@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+ using Docker.DotNet;
+using Docker.DotNet.Models;
+using System.Threading;
 
 namespace webshell.Controllers
 {
@@ -10,36 +13,51 @@ namespace webshell.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        DockerClient client;
+
+        public ValuesController()
+        {
+
+            client = new DockerClientConfiguration(
+                new Uri("http://localhost:2375"))
+                 .CreateClient();
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
             return new string[] { "value1", "value2", "value2" };
         }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet]
+        public async Task<string> Post([FromBody] string id)
         {
-            return "value";
+            var request = new ContainerExecCreateParameters()
+            {
+                Tty = true,
+                AttachStderr = true,
+                AttachStdin = true,
+                AttachStdout = true,
+                Cmd = new List<string>() { "sh" },
+                DetachKeys = "ctrl-p,ctrl-q"
+            };
+            var resp = await client.Exec.ExecCreateContainerAsync(id, request);
+            return resp.ID;
         }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task Shell([FromBody] string id)
         {
-        }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var resp = await client.Exec.StartAndAttachContainerExecAsync(id, true);
+
+            while (true)
+            {
+                string ls = "ls";
+                var data = System.Text.Encoding.UTF8.GetBytes(ls);
+                await resp.WriteAsync(data, 0, data.Length, default(CancellationToken));
+                var ret = await resp.ReadOutputToEndAsync(default(CancellationToken));
+                Console.WriteLine(ret.stdout);
+
+            }
         }
     }
 }
